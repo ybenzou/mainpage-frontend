@@ -1,16 +1,14 @@
 <template>
   <div style="padding: 20px;">
-    <h1>我的主页</h1>
 
-    <!-- 展示框 -->
-    <div style="border: 1px solid gray; padding: 20px; margin-bottom: 20px;">
-      <h2>展示框</h2>
-      <p>这里将来展示后端的数据</p>
-    </div>
+    <!-- 顶部标题（始终显示） -->
+    <h1>我的网站</h1>
 
-    <!-- 按钮区 -->
-    <div>
-      <h2>跳转按钮</h2>
+    <!-- 按钮区（始终显示） -->
+    <div style="margin-bottom: 20px;">
+      <router-link to="/">
+        <button style="margin-right: 10px;">主页</button>
+      </router-link>
       <router-link to="/about">
         <button style="margin-right: 10px;">关于页面</button>
       </router-link>
@@ -18,6 +16,10 @@
         <button>联系页面</button>
       </router-link>
     </div>
+
+    <!-- 页面内容区（根据路由变化） -->
+    <router-view />
+    
   </div>
 </template>
 
@@ -26,5 +28,5 @@
 </script>
 
 <style scoped>
-/* 暂时不用加样式 */
+/* 暂时不加样式 */
 </style>
