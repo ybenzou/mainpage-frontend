@@ -1,32 +1,59 @@
 <template>
-  <div style="padding: 20px;">
+  <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
 
-    <!-- 顶部标题（始终显示） -->
-    <h1>我的网站</h1>
+    <!-- 顶部个人信息 -->
+    <section style="text-align: center; margin-bottom: 40px;">
+      <img src="https://via.placeholder.com/100" alt="Avatar" style="border-radius: 50%; width: 100px; height: 100px;">
+      <h1 style="margin-top: 20px;">Hi, I'm Yuanben Zou</h1>
+      <p>Passionate about Distributed Systems, Serverless Development, and Cloud Architecture.</p>
+    </section>
 
-    <!-- 按钮区（始终显示） -->
-    <div style="margin-bottom: 20px;">
-      <router-link to="/">
-        <button style="margin-right: 10px;">主页</button>
-      </router-link>
-      <router-link to="/about">
-        <button style="margin-right: 10px;">关于页面</button>
-      </router-link>
-      <router-link to="/contact">
-        <button>联系页面</button>
-      </router-link>
-    </div>
+    <!-- 项目导航 -->
+    <section style="margin-bottom: 40px;">
+      <h2>Projects</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+        <router-link to="/distributed-task-queue">
+          <button class="nav-button">Distributed Task Queue</button>
+        </router-link>
+        <!-- 未来可以继续添加其他项目 -->
+      </div>
+    </section>
 
-    <!-- 页面内容区（根据路由变化） -->
-    <router-view />
-    
+    <!-- 其他页面导航 -->
+    <section>
+      <h2>Site Navigation</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+        <router-link to="/">
+          <button class="nav-button">Home</button>
+        </router-link>
+        <router-link to="/about">
+          <button class="nav-button">About</button>
+        </router-link>
+        <router-link to="/contact">
+          <button class="nav-button">Contact</button>
+        </router-link>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <script setup>
-// Composition API 方式，暂时没有逻辑
+// 暂无逻辑
 </script>
 
 <style scoped>
-/* 暂时不加样式 */
+.nav-button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #2980b9;
+}
 </style>
