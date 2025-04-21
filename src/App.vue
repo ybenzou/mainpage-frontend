@@ -5,7 +5,7 @@
     <section style="text-align: center; margin-bottom: 40px;">
       <img src="https://via.placeholder.com/100" alt="Avatar" style="border-radius: 50%; width: 100px; height: 100px;">
       <h1 style="margin-top: 20px;">Hi, I'm Yuanben Zou</h1>
-      <p>Passionate about Distributed Systems, Serverless Development, and Cloud Architecture.</p>
+      <p>Passionate about AI and Software.</p>
     </section>
 
     <!-- 项目导航 -->
