@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../pages/Home.vue'
-import About from '../pages/About.vue'
+import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+import Contact from '../views/Contact.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/about', component: About },
-  { path: '/contact', component: { template: '<div>联系页面 Coming soon...</div>' } }
+  { path: '/contact', component: Contact },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 export default router
