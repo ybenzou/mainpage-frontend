@@ -3,11 +3,14 @@
 
     <!-- 顶部个人信息 -->
     <section style="text-align: center; margin-bottom: 40px;">
-      <img src="https://via.placeholder.com/100" alt="Avatar" style="border-radius: 50%; width: 100px; height: 100px;">
+    <img src="@/assets/myphoto.jpg" alt="YUANBEN" style="border-radius: 50%; width: 100px; height: 100px;">
       <h1 style="margin-top: 20px;">Hi, I'm Yuanben Zou</h1>
       <p>Passionate about AI and Software.</p>
     </section>
-
+    
+    <a href="/assets/myresume.pdf" target="_blank">
+      <button class="nav-button">Download Resume</button>
+    </a>
     <!-- 项目导航 -->
     <section style="margin-bottom: 40px;">
       <h2>Projects</h2>
