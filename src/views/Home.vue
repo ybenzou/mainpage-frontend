@@ -3,18 +3,6 @@
     <img src="/myphoto.jpg" alt="Avatar" class="avatar" />
     <h1>Yuanben Zou</h1>
     <p class="subtitle">Passionate about AI and Software Development</p>
-
-    <iframe src="/myresume.pdf" width="100%" height="800px" style="border: none;"></iframe>
-
-
-    <section class="projects">
-      <h2>Projects</h2>
-      <ul>
-        <li>Distributed Task Queue System</li>
-        <li>Personal Blog System</li>
-        <li>Privacy-Preserving RAG Framework</li>
-      </ul>
-    </section>
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
-  <div class="app-container">
+  <div class="app-layout">
     <NavigationBar />
-    <router-view />
+    <div class="page-content">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -10,8 +12,15 @@ import NavigationBar from './components/NavigationBar.vue'
 </script>
 
 <style scoped>
-.app-container {
+.app-layout {
+  display: flex;
+  min-height: 100vh;
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  padding: 20px;
+}
+
+/* 右边主页面区域 */
+.page-content {
+  flex: 1;
+  padding: 40px;
 }
 </style>

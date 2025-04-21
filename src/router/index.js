@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Contact from '../views/Contact.vue'
 import DistributedTaskQueue from '../views/DistributedTaskQueue.vue'
+import PersonalBlog from '../views/PersonalBlog.vue'
+import PrivacyRag from '../views/PrivacyRag.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/about', component: About },
-  { path: '/contact', component: Contact },
   { path: '/distributed-task-queue', component: DistributedTaskQueue },
+  { path: '/personal-blog', component: PersonalBlog },
+  { path: '/privacy-rag', component: PrivacyRag },
 ]
 
 const router = createRouter({
