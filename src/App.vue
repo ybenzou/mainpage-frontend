@@ -3,14 +3,17 @@
 
     <!-- 顶部个人信息 -->
     <section style="text-align: center; margin-bottom: 40px;">
-    <img src="@/assets/myphoto.jpg" alt="YUANBEN" style="border-radius: 50%; width: 100px; height: 100px;">
+    <img src="/myphoto.jpg" alt="YB" style="border-radius: 50%; width: 100px; height: 100px;">
       <h1 style="margin-top: 20px;">Hi, I'm Yuanben Zou</h1>
       <p>Passionate about AI and Software.</p>
     </section>
-    
-    <a href="/assets/myresume.pdf" target="_blank">
-      <button class="nav-button">Download Resume</button>
-    </a>
+
+    <section style="margin-top: 40px;">
+      <h2 style="text-align: center;">My Resume</h2>
+      <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <iframe src="/myresume.pdf" width="800" height="1000" style="border: none;"></iframe>
+      </div>
+    </section>
     <!-- 项目导航 -->
     <section style="margin-bottom: 40px;">
       <h2>Projects</h2>
