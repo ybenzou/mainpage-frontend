@@ -4,9 +4,8 @@
     <h1>Yuanben Zou</h1>
     <p class="subtitle">Passionate about AI and Software Development</p>
 
-    <div class="buttons">
-      <a href="/myresume.pdf" target="_blank" class="button">View Resume</a>
-    </div>
+    <iframe src="/myresume.pdf" width="100%" height="800px" style="border: none;"></iframe>
+
 
     <section class="projects">
       <h2>Projects</h2>
