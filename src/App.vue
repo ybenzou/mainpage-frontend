@@ -1,32 +1,14 @@
 <template>
   <div style="padding: 40px; max-width: 1000px; margin: 0 auto;">
-
     <!-- 顶部个人信息 -->
     <section style="text-align: center; margin-bottom: 40px;">
-    <img src="/myphoto.jpg" alt="YB" style="border-radius: 50%; width: 100px; height: 100px;">
+      <img src="/myphoto.jpg" alt="YB" style="border-radius: 50%; width: 100px; height: 100px;">
       <h1 style="margin-top: 20px;">Hi, I'm Yuanben Zou</h1>
       <p>Passionate about AI and Software.</p>
     </section>
 
-    <section style="margin-top: 40px;">
-      <h2 style="text-align: center;">My Resume</h2>
-      <div style="display: flex; justify-content: center; margin-top: 20px;">
-        <iframe src="/myresume.pdf" width="800" height="1000" style="border: none;"></iframe>
-      </div>
-    </section>
-    <!-- 项目导航 -->
+    <!-- 站点导航 -->
     <section style="margin-bottom: 40px;">
-      <h2>Projects</h2>
-      <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
-        <router-link to="/distributed-task-queue">
-          <button class="nav-button">Distributed Task Queue</button>
-        </router-link>
-        <!-- 未来可以继续添加其他项目 -->
-      </div>
-    </section>
-
-    <!-- 其他页面导航 -->
-    <section>
       <h2>Site Navigation</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
         <router-link to="/">
@@ -41,6 +23,8 @@
       </div>
     </section>
 
+    <!-- 页面内容区域 -->
+    <router-view />
   </div>
 </template>
 
