@@ -21,6 +21,8 @@ const links = [
   { name: 'Personal Blog', path: '/personal-blog', available: false },
   { name: 'Privacy-Preserving RAG', path: '/privacy-rag', available: false },
   { name: 'Analyze File Structure', path: '/analyze-structure', available: true },
+  { name: 'Prompt Builder', path: '/prompt-builder', available: true },
+
 ];
 </script>
 
