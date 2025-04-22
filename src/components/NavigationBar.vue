@@ -4,6 +4,8 @@
     <router-link to="/distributed-task-queue" class="nav-link" exact-active-class="active-link">Distributed Task Queue</router-link>
     <router-link to="/personal-blog" class="nav-link" exact-active-class="active-link">Personal Blog</router-link>
     <router-link to="/privacy-rag" class="nav-link" exact-active-class="active-link">Privacy-Preserving RAG</router-link>
+    <router-link to="/analyze-structure" class="nav-link" exact-active-class="active-link">Analyze File Structure</router-link>
+
   </nav>
 </template>
 

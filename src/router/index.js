@@ -3,11 +3,13 @@ import Home from '../views/Home.vue'
 import DistributedTaskQueue from '../views/DistributedTaskQueue.vue'
 import PersonalBlog from '../views/PersonalBlog.vue'
 import PrivacyRag from '../views/PrivacyRag.vue'
+import FileStructureAnalyzer from '../views/FileStructureAnalyzer.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/distributed-task-queue', component: DistributedTaskQueue },
   { path: '/personal-blog', component: PersonalBlog },
+  { path: '/analyze-structure', name: 'AnalyzeStructure', component: FileStructureAnalyzer },
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 
