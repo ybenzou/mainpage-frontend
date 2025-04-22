@@ -1,19 +1,20 @@
 <template>
   <div class="flex h-screen">
-    <!-- 左侧: 文件选择与操作 -->
-    <div class="left-panel">
-      <h1 class="title">🛠️ Prompt Builder</h1>
+    <!-- 左侧: 文件上传和生成 -->
+    <div class="w-1/3 bg-gray-100 p-6 flex flex-col overflow-auto">
+      <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">🛠️ Prompt Builder</h1>
 
-      <div class="control-group">
+      <div class="flex flex-col items-center gap-4 mb-6">
         <input
           type="file"
           webkitdirectory
           directory
           multiple
           @change="handleFolderSelect"
+          class="border border-gray-300 rounded-md p-2 w-full text-sm hover:border-blue-400 cursor-pointer"
         />
         <button
-          class="generate-btn"
+          class="bg-blue-600 text-white px-6 py-2 rounded-md font-semibold text-sm hover:bg-blue-700 transition"
           @click="generatePrompt"
           :disabled="!tree"
         >
@@ -21,7 +22,7 @@
         </button>
       </div>
 
-      <div v-if="loading" class="text-center" style="color: #409eff;">Analyzing folder...</div>
+      <div v-if="loading" class="text-center text-blue-600 text-base mt-4">Analyzing folder...</div>
 
       <div v-else-if="tree" class="flex-1 overflow-auto">
         <template v-for="(node, name) in tree" :key="name">
@@ -35,28 +36,32 @@
       </div>
     </div>
 
-    <!-- 右侧: Prompt 结果展示 -->
-    <div class="right-panel">
+    <!-- 右侧: Prompt展示 -->
+    <div class="w-2/3 bg-white p-8 flex flex-col overflow-auto">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold">📝 Generated Prompt</h2>
+        <h2 class="text-2xl font-bold text-gray-800">📝 Generated Prompt</h2>
         <button
-          class="copy-btn"
+          class="bg-green-600 text-white px-4 py-2 rounded-md font-semibold text-sm hover:bg-green-700 transition transform hover:scale-105"
           @click="copyPrompt"
           :disabled="!prompt"
         >
-          📋 Copy Prompt
+          📋 Copy
         </button>
       </div>
 
-      <div class="prompt-area">
+      <div class="flex-1 bg-gray-50 p-6 rounded-md shadow-inner overflow-auto text-sm font-mono whitespace-pre-wrap leading-relaxed text-gray-700">
         {{ prompt || 'No prompt generated yet.' }}
       </div>
 
-      <div v-if="copied" class="copied-tip">✅ Copied to clipboard!</div>
+      <div
+        v-if="copied"
+        class="text-green-600 text-center mt-4 text-sm transition-opacity duration-500"
+      >
+        ✅ Copied to clipboard!
+      </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from 'vue';
@@ -121,7 +126,6 @@ function formatTreeWithQueries(node, depth = 0, prefix = '') {
   return output;
 }
 
-
 function copyPrompt() {
   if (!prompt.value) return;
   navigator.clipboard.writeText(prompt.value).then(() => {
@@ -130,128 +134,3 @@ function copyPrompt() {
   });
 }
 </script>
-
-<style scoped>
-/* 整体左右分栏布局 */
-.flex {
-  display: flex;
-}
-
-.h-screen {
-  height: 100vh;
-}
-
-/* 左侧栏样式 */
-.left-panel {
-  width: 33.3333%;
-  background-color: #f5f5f5;
-  padding: 24px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 右侧栏样式 */
-.right-panel {
-  width: 66.6666%;
-  background-color: #ffffff;
-  padding: 32px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 标题 */
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-/* 上传框和按钮区域 */
-.control-group {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 24px;
-  align-items: center;
-}
-
-/* 输入框美化 */
-input[type="file"] {
-  border: 1px solid #cccccc;
-  padding: 10px;
-  border-radius: 6px;
-  width: 100%;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-input[type="file"]:hover {
-  border-color: #409eff;
-}
-
-/* 普通按钮样式 */
-button {
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 14px;
-  width: 100%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-/* 上传按钮、生成按钮、复制按钮不同颜色 */
-.generate-btn {
-  background-color: #409eff;
-  color: white;
-}
-
-.generate-btn:hover {
-  background-color: #337ab7;
-}
-
-.copy-btn {
-  background-color: #67c23a;
-  color: white;
-}
-
-.copy-btn:hover {
-  background-color: #529b2e;
-}
-
-/* 生成Prompt结果外框 */
-.prompt-area {
-  flex: 1;
-  background-color: #fafafa;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
-  font-size: 14px;
-  white-space: pre-wrap;
-  overflow-y: auto;
-}
-
-/* Copied小提示 */
-.copied-tip {
-  color: #67c23a;
-  text-align: center;
-  margin-top: 16px;
-  font-size: 14px;
-}
-
-/* 美化滚动条 */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(150, 150, 150, 0.4);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(150, 150, 150, 0.7);
-}
-</style>

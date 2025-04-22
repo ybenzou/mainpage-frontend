@@ -1,16 +1,15 @@
 <template>
-  <nav class="nav">
-    <router-link
-      v-for="link in links"
-      :key="link.path"
-      :to="link.path"
-      class="nav-link"
-      exact-active-class="active-link"
-      :class="{ 'disabled-link': !link.available }"
-      :tabindex="link.available ? 0 : -1"
-    >
-      {{ link.name }}
-    </router-link>
+  <nav class="flex flex-col gap-5 p-10 w-56 min-h-screen bg-gray-100 border-r border-gray-300">
+    <template v-for="link in links" :key="link.path">
+      <router-link
+        v-if="link.available"
+        :to="link.path"
+        class="font-bold text-lg text-blue-600 hover:underline transition-colors duration-300"
+        exact-active-class="active-link"
+      >
+        {{ link.name }}
+      </router-link>
+    </template>
   </nav>
 </template>
 
@@ -22,47 +21,12 @@ const links = [
   { name: 'Privacy-Preserving RAG', path: '/privacy-rag', available: false },
   { name: 'Analyze File Structure', path: '/analyze-structure', available: true },
   { name: 'Prompt Builder', path: '/prompt-builder', available: true },
-
+  { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
 </script>
 
 <style scoped>
-.nav {
-  width: 220px;
-  background-color: #f8f9fa;
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-right: 1px solid #e0e0e0;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: #3498db;
-  font-weight: bold;
-  font-size: 18px;
-  transition: color 0.3s, opacity 0.3s;
-}
-
-/* 鼠标悬浮效果 */
-.nav-link:hover {
-  text-decoration: underline;
-}
-
-/* 当前高亮页面 */
 .active-link {
-  color: #e74c3c;
-  text-decoration: underline;
-}
-
-/* 未上线功能样式 */
-.disabled-link {
-  color: #bdc3c7;
-  pointer-events: none;
-  cursor: default;
-  opacity: 0.6;
+  @apply text-red-500 underline;
 }
 </style>

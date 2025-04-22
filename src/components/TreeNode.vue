@@ -1,24 +1,27 @@
 <template>
-  <div :style="{ marginLeft: `${depth * 20}px` }" class="mb-2">
-    <div class="flex items-center gap-2">
+  <div :style="{ marginLeft: `${depth * 20}px` }" class="node-item">
+    <!-- 文件/文件夹的 checkbox + 名字 -->
+    <div class="node-header">
       <input
         type="checkbox"
         :value="path"
         v-model="localSelected"
-        class="w-4 h-4"
+        class="node-checkbox"
       />
-      <span class="text-base">{{ isFolder ? '📁' : '📄' }} {{ name }}</span>
+      <span class="node-name">{{ isFolder ? '📁' : '📄' }} {{ name }}</span>
     </div>
 
-    <div v-if="localSelected.includes(path)" class="ml-8 mt-1">
+    <!-- 选中了才显示 query输入框 -->
+    <div v-if="localSelected.includes(path)" class="query-wrapper">
       <input
         type="text"
         v-model="queries[path]"
-        placeholder="Enter query for this file/folder..."
-        class="border p-2 rounded-md w-72 text-sm"
+        placeholder="Enter your query for this file/folder..."
+        class="query-input"
       />
     </div>
 
+    <!-- 如果是文件夹，递归子节点 -->
     <div v-if="isFolder">
       <TreeNode
         v-for="(child, childName) in node"
@@ -37,6 +40,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 
+// Props
 const props = defineProps({
   name: String,
   node: Object,
@@ -50,25 +54,67 @@ const props = defineProps({
 
 const emit = defineEmits(['update:queries']);
 
+// 是否是文件夹
 const isFolder = computed(() => props.node !== null);
 
+// 本地checkbox选择
 const localSelected = ref([]);
 
+// 监听勾选变化
 watch(localSelected, () => {
-  emitUpdate();
+  updateQueries();
 });
 
+// 处理子组件传回queries
 function updateQueries(newQueries) {
-  emit('update:queries', newQueries);
-}
-
-function emitUpdate() {
-  const newQueries = { ...props.queries };
-  for (const key in newQueries) {
-    if (!localSelected.value.includes(key)) {
-      delete newQueries[key];
-    }
-  }
-  emit('update:queries', newQueries);
+  emit('update:queries', newQueries || props.queries);
 }
 </script>
+
+<style scoped>
+/* 每个节点的外层 */
+.node-item {
+  margin-bottom: 8px;
+}
+
+/* checkbox + 文件名 排列 */
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* checkbox大一点，方便点 */
+.node-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* 文件/文件夹名 */
+.node-name {
+  font-size: 16px;
+  color: #444;
+}
+
+/* query输入框区域 */
+.query-wrapper {
+  margin-left: 26px;
+  margin-top: 6px;
+}
+
+/* 输入框本身美化 */
+.query-input {
+  width: 85%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.query-input:focus {
+  border-color: #409eff;
+}
+</style>
