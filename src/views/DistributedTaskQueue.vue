@@ -80,7 +80,7 @@ export default {
     },
     startPolling() {
       if (this.intervalId) clearInterval(this.intervalId);
-      this.intervalId = setInterval(this.pollStatus, 3000);
+      this.intervalId = setInterval(this.pollStatus, 300000);
     },
     async fetchTaskList() {
       const res = await fetch('https://ntfqk6u6o3.execute-api.ap-southeast-1.amazonaws.com/dev/task-list');
