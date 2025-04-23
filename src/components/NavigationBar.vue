@@ -21,6 +21,8 @@ const links = [
   { name: 'Privacy-Preserving RAG', path: '/privacy-rag', available: false },
   { name: 'Analyze File Structure', path: '/analyze-structure', available: true },
   { name: 'Prompt Builder', path: '/prompt-builder', available: true },
+  { name: 'Git Auto Helper', path: '/git-helper', available: true },
+
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
 </script>
