@@ -7,6 +7,7 @@ import FileStructureAnalyzer from '../views/FileStructureAnalyzer.vue'
 import PromptBuilder from '../views/PromptBuilder.vue'
 import TailwindDemo from '../views/TailwindDemo.vue'
 import GitHelper from '../views/GitHelper.vue'
+import RedisDemo from '../views/RedisDemo.vue'
 
 
 
@@ -18,6 +19,7 @@ const routes = [
   { path: '/prompt-builder', component: PromptBuilder },
   { path: '/git-helper', component: GitHelper },
   { path: '/tailwind-demo', component: TailwindDemo },
+  { path: '/redis-demo', component: RedisDemo },
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 
