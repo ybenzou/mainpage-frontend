@@ -16,7 +16,7 @@
 <script setup>
 const links = [
   { name: 'Home', path: '/', available: true },
-  { name: 'Distributed Task Queue', path: '/distributed-task-queue', available: false },
+  { name: 'Distributed Task Queue', path: '/distributed-task-queue', available: true },
   { name: 'Personal Blog', path: '/personal-blog', available: false },
   { name: 'Privacy-Preserving RAG', path: '/privacy-rag', available: false },
   { name: 'Analyze File Structure', path: '/analyze-structure', available: true },
