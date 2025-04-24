@@ -4,20 +4,13 @@
 
     <!-- 查询字段 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-      <!-- 公共字段 -->
       <input v-model="form.title" class="border p-2 rounded w-full" placeholder="Title">
       <input v-model="form.author" class="border p-2 rounded w-full" placeholder="Author">
       <input v-model="form.abstract" class="border p-2 rounded w-full" placeholder="Abstract">
       <input v-model="form.journal" class="border p-2 rounded w-full" placeholder="Journal Reference">
-
-      <!-- arXiv 专属字段 -->
       <input v-if="platform === 'arxiv'" v-model="form.comment" class="border p-2 rounded w-full" placeholder="Comment">
       <input v-if="platform === 'arxiv'" v-model="form.category" class="border p-2 rounded w-full" placeholder="Category">
-
-      <!-- PubMed 专属字段 -->
       <input v-if="platform === 'pubmed'" v-model="form.pubmedYear" class="border p-2 rounded w-full md:col-span-2" placeholder="Publication Year (e.g. 2023)">
-
-      <!-- all 是通用字段，占两列 -->
       <input v-model="form.all" class="border p-2 rounded w-full md:col-span-2" placeholder="All fields">
     </div>
 
@@ -45,29 +38,23 @@
       </button>
     </div>
 
-    <!-- 🔄 加载提示 -->
     <div v-if="isLoading" class="text-sm text-gray-600 italic animate-pulse mb-4">
       🔄 Searching for articles...
     </div>
 
-    <!-- 结果展示 -->
+    <!-- 搜索结果展示 -->
     <ul v-if="articles.length" class="space-y-4">
       <li v-for="(article, index) in articles" :key="index" class="p-4 border rounded shadow-sm">
         <p class="font-semibold text-lg">{{ article.title }}</p>
         <p class="text-sm text-gray-600 mt-1">{{ article.short_summary }}</p>
 
         <div class="mt-2 flex flex-wrap items-center gap-3">
-          <!-- PDF 可用性 -->
-          <a v-if="article.open_access" :href="article.pdf_url" target="_blank"
-             class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700">PDF</a>
+          <a v-if="article.open_access" :href="article.pdf_url" target="_blank" class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700">PDF</a>
           <span v-else class="text-sm text-gray-400 italic">No PDF</span>
 
-          <!-- 摘要查看 -->
           <button @click="showModal(article)" class="text-sm text-indigo-600 underline">View Abstract</button>
 
-          <!-- 复制 BibTeX -->
-          <button v-if="article.bibtex" @click="copyBibtex(article.bibtex)"
-                  class="bg-yellow-500 text-white text-sm px-3 py-1 rounded hover:bg-yellow-600">Copy BibTeX</button>
+          <button v-if="article.bibtex" @click="copyBibtex(article.bibtex)" class="bg-yellow-500 text-white text-sm px-3 py-1 rounded hover:bg-yellow-600">Copy BibTeX</button>
         </div>
       </li>
     </ul>
@@ -77,9 +64,8 @@
       <div class="bg-white p-6 rounded shadow-lg w-full max-w-xl relative">
         <button @click="modalArticle = null" class="absolute top-2 right-3 text-gray-400 hover:text-black text-lg">×</button>
         <h2 class="text-xl font-bold mb-2">{{ modalArticle.title }}</h2>
-        <p class="text-gray-800 whitespace-pre-wrap">{{ modalArticle.summary }}</p>
-        <a v-if="modalArticle.pdf_url" :href="modalArticle.pdf_url" target="_blank"
-           class="inline-block mt-4 text-blue-600 underline">Open PDF</a>
+        <p class="text-gray-800 whitespace-pre-wrap mb-4">{{ modalArticle.summary }}</p>
+        <a v-if="modalArticle.pdf_url" :href="modalArticle.pdf_url" target="_blank" class="inline-block mt-4 text-blue-600 underline">Open PDF</a>
       </div>
     </div>
   </div>
@@ -111,11 +97,7 @@ export default {
       this.isLoading = true
       this.articles = []
       const endpoint = 'https://ntfqk6u6o3.execute-api.ap-southeast-1.amazonaws.com/dev/arxiv-search'
-
-      const params = new URLSearchParams({
-        platform: this.platform,
-        sortBy: this.sortBy
-      })
+      const params = new URLSearchParams({ platform: this.platform, sortBy: this.sortBy })
 
       for (const [key, value] of Object.entries(this.form)) {
         if (value) {
@@ -124,10 +106,8 @@ export default {
         }
       }
 
-      const url = `${endpoint}?${params.toString()}`
-
       try {
-        const response = await fetch(url)
+        const response = await fetch(`${endpoint}?${params.toString()}`)
         const data = await response.json()
         this.articles = data.articles || []
       } catch (err) {
@@ -137,9 +117,11 @@ export default {
         this.isLoading = false
       }
     },
+
     showModal(article) {
       this.modalArticle = article
     },
+
     copyBibtex(bibtex) {
       navigator.clipboard.writeText(bibtex)
         .then(() => alert('BibTeX copied to clipboard!'))
