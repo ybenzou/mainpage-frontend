@@ -4,23 +4,22 @@
 
     <!-- 查询字段 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-    <!-- 公共字段 -->
-    <input v-model="form.title" class="border p-2 rounded w-full" placeholder="Title">
-    <input v-model="form.author" class="border p-2 rounded w-full" placeholder="Author">
-    <input v-model="form.abstract" class="border p-2 rounded w-full" placeholder="Abstract">
-    <input v-model="form.journal" class="border p-2 rounded w-full" placeholder="Journal Reference">
+      <!-- 公共字段 -->
+      <input v-model="form.title" class="border p-2 rounded w-full" placeholder="Title">
+      <input v-model="form.author" class="border p-2 rounded w-full" placeholder="Author">
+      <input v-model="form.abstract" class="border p-2 rounded w-full" placeholder="Abstract">
+      <input v-model="form.journal" class="border p-2 rounded w-full" placeholder="Journal Reference">
 
-    <!-- arXiv 专属字段 -->
-    <input v-if="platform === 'arxiv'" v-model="form.comment" class="border p-2 rounded w-full" placeholder="Comment">
-    <input v-if="platform === 'arxiv'" v-model="form.category" class="border p-2 rounded w-full" placeholder="Category">
+      <!-- arXiv 专属字段 -->
+      <input v-if="platform === 'arxiv'" v-model="form.comment" class="border p-2 rounded w-full" placeholder="Comment">
+      <input v-if="platform === 'arxiv'" v-model="form.category" class="border p-2 rounded w-full" placeholder="Category">
 
-    <!-- PubMed 专属字段 -->
-    <input v-if="platform === 'pubmed'" v-model="form.pubmedYear" class="border p-2 rounded w-full md:col-span-2" placeholder="Publication Year (e.g. 2023)">
+      <!-- PubMed 专属字段 -->
+      <input v-if="platform === 'pubmed'" v-model="form.pubmedYear" class="border p-2 rounded w-full md:col-span-2" placeholder="Publication Year (e.g. 2023)">
 
-    <!-- all 是通用字段，占两列 -->
-    <input v-model="form.all" class="border p-2 rounded w-full md:col-span-2" placeholder="All fields">
+      <!-- all 是通用字段，占两列 -->
+      <input v-model="form.all" class="border p-2 rounded w-full md:col-span-2" placeholder="All fields">
     </div>
-
 
     <!-- 平台选择与排序 -->
     <div class="flex items-center mb-6 gap-4 flex-wrap">
@@ -30,14 +29,25 @@
         <option value="pubmed">PubMed</option>
       </select>
 
-      <label class="font-semibold ml-2">Sort by:</label>
-      <select v-model="sortBy" class="border p-2 rounded" :disabled="platform === 'pubmed'">
+      <label v-if="platform === 'arxiv'" class="font-semibold ml-2">Sort by:</label>
+      <select v-if="platform === 'arxiv'" v-model="sortBy" class="border p-2 rounded">
         <option value="relevance">Relevance</option>
         <option value="submittedDate">Submission Date</option>
         <option value="lastUpdatedDate">Last Updated</option>
       </select>
 
-      <button @click="search" class="bg-blue-600 text-white px-6 py-2 rounded ml-auto">Search</button>
+      <button
+        @click="search"
+        class="bg-blue-600 text-white px-6 py-2 rounded ml-auto"
+        :disabled="isLoading"
+      >
+        {{ isLoading ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+
+    <!-- 🔄 加载提示 -->
+    <div v-if="isLoading" class="text-sm text-gray-600 italic animate-pulse mb-4">
+      🔄 Searching for articles...
     </div>
 
     <!-- 结果展示 -->
@@ -45,20 +55,31 @@
       <li v-for="(article, index) in articles" :key="index" class="p-4 border rounded shadow-sm">
         <p class="font-semibold text-lg">{{ article.title }}</p>
         <p class="text-sm text-gray-600 mt-1">{{ article.short_summary }}</p>
-        <div class="mt-2 flex items-center space-x-4">
-          <a v-if="article.pdf_url" :href="article.pdf_url" target="_blank" class="text-blue-500 underline text-sm">Download PDF</a>
-          <button @click="showModal(article)" class="text-sm text-indigo-600 underline">View Full Abstract</button>
+
+        <div class="mt-2 flex flex-wrap items-center gap-3">
+          <!-- PDF 可用性 -->
+          <a v-if="article.open_access" :href="article.pdf_url" target="_blank"
+             class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700">PDF</a>
+          <span v-else class="text-sm text-gray-400 italic">No PDF</span>
+
+          <!-- 摘要查看 -->
+          <button @click="showModal(article)" class="text-sm text-indigo-600 underline">View Abstract</button>
+
+          <!-- 复制 BibTeX -->
+          <button v-if="article.bibtex" @click="copyBibtex(article.bibtex)"
+                  class="bg-yellow-500 text-white text-sm px-3 py-1 rounded hover:bg-yellow-600">Copy BibTeX</button>
         </div>
       </li>
     </ul>
 
-    <!-- 弹窗 -->
+    <!-- 摘要弹窗 -->
     <div v-if="modalArticle" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white p-6 rounded shadow-lg w-full max-w-xl relative">
         <button @click="modalArticle = null" class="absolute top-2 right-3 text-gray-400 hover:text-black text-lg">×</button>
         <h2 class="text-xl font-bold mb-2">{{ modalArticle.title }}</h2>
         <p class="text-gray-800 whitespace-pre-wrap">{{ modalArticle.summary }}</p>
-        <a v-if="modalArticle.pdf_url" :href="modalArticle.pdf_url" target="_blank" class="inline-block mt-4 text-blue-600 underline">Open PDF</a>
+        <a v-if="modalArticle.pdf_url" :href="modalArticle.pdf_url" target="_blank"
+           class="inline-block mt-4 text-blue-600 underline">Open PDF</a>
       </div>
     </div>
   </div>
@@ -80,53 +101,49 @@ export default {
       },
       platform: 'arxiv',
       sortBy: 'relevance',
+      isLoading: false,
       articles: [],
       modalArticle: null
     }
   },
   methods: {
-    buildQuery() {
-      const { title, author, abstract, comment, journal, category, all } = this.form
-      const queryParts = []
-      if (title) queryParts.push(`ti:${title}`)
-      if (author) queryParts.push(`au:${author}`)
-      if (abstract) queryParts.push(`abs:${abstract}`)
-      if (comment) queryParts.push(`co:${comment}`)
-      if (journal) queryParts.push(`jr:${journal}`)
-      if (category) queryParts.push(`cat:${category}`)
-      if (all) queryParts.push(`all:${all}`)
-      return queryParts.join(' AND ')
-    },
     async search() {
-        const endpoint = 'https://ntfqk6u6o3.execute-api.ap-southeast-1.amazonaws.com/dev/arxiv-search'
+      this.isLoading = true
+      this.articles = []
+      const endpoint = 'https://ntfqk6u6o3.execute-api.ap-southeast-1.amazonaws.com/dev/arxiv-search'
 
-        const params = new URLSearchParams({
-            platform: this.platform,
-            sortBy: this.sortBy
-        })
+      const params = new URLSearchParams({
+        platform: this.platform,
+        sortBy: this.sortBy
+      })
 
-        // 添加字段参数（不再拼接 query）
-        for (const [key, value] of Object.entries(this.form)) {
-            if (value) {
-            if (key === 'pubmedYear' && this.platform !== 'pubmed') continue
-            params.append(key, value)
-            }
+      for (const [key, value] of Object.entries(this.form)) {
+        if (value) {
+          if (key === 'pubmedYear' && this.platform !== 'pubmed') continue
+          params.append(key, value)
         }
+      }
 
-        const url = `${endpoint}?${params.toString()}`
+      const url = `${endpoint}?${params.toString()}`
 
-        try {
-            const response = await fetch(url)
-            const data = await response.json()
-            this.articles = data.articles || []
-        } catch (err) {
-            console.error('Fetch error:', err)
-            alert('Failed to fetch articles. Please try again later.')
-        }
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        this.articles = data.articles || []
+      } catch (err) {
+        console.error('Fetch error:', err)
+        alert('Failed to fetch articles. Please try again later.')
+      } finally {
+        this.isLoading = false
+      }
     },
-
     showModal(article) {
       this.modalArticle = article
+    },
+    copyBibtex(bibtex) {
+      navigator.clipboard.writeText(bibtex)
+        .then(() => alert('BibTeX copied to clipboard!'))
+        .catch(() => alert('Failed to copy BibTeX'))
     }
   }
 }
