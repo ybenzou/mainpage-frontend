@@ -8,6 +8,7 @@ import PromptBuilder from '../views/PromptBuilder.vue'
 import TailwindDemo from '../views/TailwindDemo.vue'
 import GitHelper from '../views/GitHelper.vue'
 import RedisDemo from '../views/RedisDemo.vue'
+import ArxivSearch from '../views/ArxivSearch.vue'
 
 
 
@@ -20,6 +21,7 @@ const routes = [
   { path: '/git-helper', component: GitHelper },
   { path: '/tailwind-demo', component: TailwindDemo },
   { path: '/redis-demo', component: RedisDemo },
+  { path: '/arxiv-search', component: ArxivSearch },
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 

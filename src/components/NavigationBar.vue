@@ -23,6 +23,7 @@ const links = [
   { name: 'Prompt Builder', path: '/prompt-builder', available: true },
   { name: 'Git Auto Helper', path: '/git-helper', available: true },
   { name: 'Redis Demo', path: '/redis-demo', available: true },
+  { name: 'Arxiv Search Demo', path: '/arxiv-search', available: true },
 
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
