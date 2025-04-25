@@ -9,6 +9,7 @@ import TailwindDemo from '../views/TailwindDemo.vue'
 import GitHelper from '../views/GitHelper.vue'
 import RedisDemo from '../views/RedisDemo.vue'
 import ArxivSearch from '../views/ArxivSearch.vue'
+import BananaGame from '../views/BananaGame.vue'
 
 
 
@@ -22,6 +23,8 @@ const routes = [
   { path: '/tailwind-demo', component: TailwindDemo },
   { path: '/redis-demo', component: RedisDemo },
   { path: '/arxiv-search', component: ArxivSearch },
+  { path: '/banana-game', component: BananaGame },
+
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 
