@@ -24,7 +24,7 @@ const links = [
   { name: 'Git Auto Helper', path: '/git-helper', available: true },
   { name: 'Redis Demo', path: '/redis-demo', available: true },
   { name: 'Article Search', path: '/arxiv-search', available: true },
-  { name: 'Banana', path: '/banana-game', available: true },
+  { name: 'Apple', path: '/banana-game', available: true },
 
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];

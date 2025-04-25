@@ -1,56 +1,60 @@
 <template>
-  <div class="min-h-screen p-6 bg-yellow-50 text-center space-y-4">
-    <h1 class="text-3xl font-bold">🍌 Banana Clicker</h1>
-    <p class="text-sm text-gray-500 break-words">You are player: {{ uuid }}</p>
-    <p>You have collected <span class="font-bold">{{ total }}</span> bananas</p>
+  <div class="min-h-screen p-6 bg-green-50 text-center space-y-6">
+    <h1 class="text-3xl font-extrabold text-green-800">🍏 Apple Clicker</h1>
+    <p class="text-sm text-gray-600 break-words">You are player: <span class="font-mono">{{ uuid }}</span></p>
+    <p class="text-lg">You have collected <span class="font-bold text-green-800">{{ total }}</span> apples</p>
 
-    <button @click="collectBanana" class="px-6 py-2 bg-yellow-400 rounded shadow hover:bg-yellow-500">
-      Click to Collect Banana
+    <button @click="collectApple" class="px-6 py-2 bg-green-400 text-white rounded-lg shadow hover:bg-green-500 transition">
+      Click to Collect Apple 🍎
     </button>
 
-    <p>Idle time: {{ idleTime }} seconds</p>
+    <p class="text-gray-500 text-sm">Idle time: {{ idleTime }} seconds</p>
 
-    <div class="space-y-1">
-      <p v-for="(count, rarity) in bananaCounts" :key="rarity">
+    <div class="space-y-1 text-green-700 font-medium">
+      <p v-for="(count, rarity) in appleCounts" :key="rarity">
         {{ rarity }}: {{ count }}
       </p>
     </div>
 
+    <!-- 🍏 点击动画 -->
     <transition name="fade-slide">
-      <div v-if="showAnim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 text-4xl animate-bounce">
-        🍌 +1 {{ lastBanana }}
+      <div v-if="showAnim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 text-5xl animate-bounce">
+        {{ lastAppleEmoji }} ({{ lastAppleRarity }})
       </div>
     </transition>
 
     <!-- 🏆 Leaderboard -->
-    <section class="mt-10 bg-yellow-100 rounded-md p-4 max-w-full mx-auto">
-    <h2 class="text-xl font-bold mb-2">🏆 Leaderboard (Top 10)</h2>
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left">
-        <thead>
-            <tr class="border-b border-yellow-300">
-            <th>#</th>
-            <th>Player</th>
-            <th>Common</th>
-            <th>Rare</th>
-            <th>Epic</th>
-            <th>Legendary</th>
+    <section class="mt-12 bg-white rounded-lg p-6 max-w-full mx-auto shadow border border-green-200">
+      <h2 class="text-2xl font-bold text-green-800 mb-4">🏆 Apple Leaderboard</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border border-green-300">
+          <thead class="bg-green-100 text-green-800">
+            <tr>
+              <th class="py-2 px-3">#</th>
+              <th class="py-2 px-3">Player</th>
+              <th class="py-2 px-3">Common</th>
+              <th class="py-2 px-3">Rare</th>
+              <th class="py-2 px-3">Epic</th>
+              <th class="py-2 px-3">Legendary</th>
             </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(entry, i) in leaderboard" :key="entry.uuid">
-            <td>{{ i + 1 }}</td>
-            <td>{{ entry.uuid.slice(0, 6) }}...</td>
-            <td>{{ entry.Common }}</td>
-            <td>{{ entry.Rare }}</td>
-            <td>{{ entry.Epic }}</td>
-            <td>{{ entry.Legendary }}</td>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(entry, i) in leaderboard"
+              :key="entry.uuid"
+              :class="entry.uuid === uuid ? 'bg-green-100 font-bold text-green-800' : 'bg-white hover:bg-green-50'"
+            >
+              <td class="py-2 px-3">{{ i + 1 }}</td>
+              <td class="py-2 px-3">{{ entry.uuid.slice(0, 6) }}<span v-if="entry.uuid === uuid"> (you)</span></td>
+              <td class="py-2 px-3">{{ entry.Common }}</td>
+              <td class="py-2 px-3">{{ entry.Rare }}</td>
+              <td class="py-2 px-3">{{ entry.Epic }}</td>
+              <td class="py-2 px-3">{{ entry.Legendary }}</td>
             </tr>
-        </tbody>
+          </tbody>
         </table>
-    </div>
+      </div>
     </section>
-
   </div>
 </template>
 
@@ -60,16 +64,30 @@ import { ref, onMounted } from 'vue'
 const uuid = ref('')
 const total = ref(0)
 const idleTime = ref(0)
-const lastBanana = ref('')
+const lastAppleRarity = ref('')
+const lastAppleEmoji = ref('')
 const showAnim = ref(false)
-const leaderboard = ref([]) // 🏆 排行榜状态
+const leaderboard = ref([])
 
-const bananaCounts = ref({
+const appleCounts = ref({
   'Common': 0,
   'Rare': 0,
   'Epic': 0,
   'Legendary': 0
 })
+
+// Emoji pools
+function randomEmojis(pool, count = 50) {
+  const shuffled = [...pool].sort(() => 0.5 - Math.random())
+  return shuffled.slice(0, count)
+}
+
+const emojiPools = {
+  Common: randomEmojis(['🍏', '🍐', '🥝', '🍈', '🥒', '🥬', '🫛', '🌽', '🥦', '🥔', '🫒', '🥕', '🧄', '🧅', '🥒', '🥜', '🍠', '🍞', '🧀', '🥖', '🥞', '🥯', '🥚', '🥗', '🥫', '🥤', '🧊', '🍚', '🍜', '🍲', '🍛', '🍢', '🍥', '🍡', '🍘', '🍙', '🍳', '🍼', '🍵', '☕️', '🧃', '🥛', '🥤', '🧋', '🍶', '🥠', '🍩', '🍪', '🥧', '🍮']),
+  Rare: randomEmojis(['🍎', '🍉', '🍊', '🍋', '🥭', '🫐', '🍇', '🍓', '🍒', '🥥', '🍍', '🥑', '🍅', '🧃', '🍕', '🥪', '🌮', '🍔', '🍟', '🌭', '🥓', '🍗', '🍖', '🥩', '🧆', '🍤', '🍣', '🍱', '🍿', '🥟', '🍛', '🍜', '🍝', '🥘', '🥙', '🧀', '🥐', '🥨', '🍞', '🍯', '🍯', '🍫', '🍬', '🍭', '🍰', '🧁', '🍨', '🍧', '🍦']),
+  Epic: randomEmojis(['🦄', '🌟', '⚡', '🌈', '🪐', '🔮', '🎉', '🎊', '✨', '💫', '🎆', '🎇', '🌀', '🌠', '💥', '🌌', '🌜', '🌛', '🌚', '🌞', '☀️', '🌤', '🌦', '☁️', '🌧', '⛈', '🌩', '🌨', '❄️', '🌬', '🌀', '💨', '🔥', '💎', '🔔', '🧿', '🎭', '🎨', '🎵', '🎶', '🎼', '🎧', '📀', '📸', '📷', '📹', '🎥', '🎬']),
+  Legendary: randomEmojis(['👑', '💎', '🏆', '🪙', '🪄', '🗝', '🧭', '🪬', '🛡', '⚔️', '🧱', '🧬', '📜', '🔑', '🧨', '🕯', '🎁', '🧸', '🎖', '🧪', '🔮', '🧹', '🪓', '🛠', '🔧', '💰', '💵', '💴', '💶', '💷', '🏅', '🎖', '🏹', '🥇', '🥈', '🥉', '🎯', '🎮', '👾', '🧠', '🦾', '🦿', '🛸', '🧊', '🛕', '🏰', '🪄', '📦', '🧭'])
+}
 
 const rarities = [
   { type: 'Common', chance: 0.98 },
@@ -90,11 +108,14 @@ function getRandomRarity() {
   return 'Common'
 }
 
-function collectBanana() {
+function collectApple() {
   const rarity = getRandomRarity()
-  bananaCounts.value[rarity]++
+  const emoji = emojiPools[rarity][Math.floor(Math.random() * emojiPools[rarity].length)]
+
+  lastAppleRarity.value = rarity
+  lastAppleEmoji.value = emoji
+  appleCounts.value[rarity]++
   total.value++
-  lastBanana.value = rarity
 
   showAnim.value = true
   setTimeout(() => showAnim.value = false, 1000)
@@ -110,7 +131,7 @@ async function saveToBackend() {
       body: JSON.stringify({
         uuid: uuid.value,
         total: total.value,
-        counts: bananaCounts.value
+        counts: appleCounts.value
       })
     })
   } catch (e) {
@@ -124,7 +145,7 @@ async function loadFromBackend() {
     const result = await res.json()
     if (result.data) {
       total.value = result.data.total
-      Object.assign(bananaCounts.value, result.data.counts)
+      Object.assign(appleCounts.value, result.data.counts)
     }
   } catch (e) {
     console.error('❌ Failed to load', e)
@@ -160,7 +181,7 @@ onMounted(() => {
   setInterval(() => {
     idleTime.value++
     if (idleTime.value % 10 === 0) {
-      collectBanana()
+      collectApple()
     }
   }, 1000)
 })
