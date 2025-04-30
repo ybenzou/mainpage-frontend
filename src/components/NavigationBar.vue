@@ -25,7 +25,7 @@ const links = [
   { name: 'Redis Demo', path: '/redis-demo', available: true },
   { name: 'Article Search', path: '/arxiv-search', available: true },
   { name: 'Apple', path: '/banana-game', available: true },
-
+  { name: 'Qwen RAG', path: '/qwen-rag', available: true },
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
 </script>

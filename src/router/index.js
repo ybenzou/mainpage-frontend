@@ -10,7 +10,7 @@ import GitHelper from '../views/GitHelper.vue'
 import RedisDemo from '../views/RedisDemo.vue'
 import ArxivSearch from '../views/ArxivSearch.vue'
 import BananaGame from '../views/BananaGame.vue'
-
+import QwenRagIntro from '../views/QwenRagIntro.vue'
 
 
 const routes = [
@@ -24,7 +24,7 @@ const routes = [
   { path: '/redis-demo', component: RedisDemo },
   { path: '/arxiv-search', component: ArxivSearch },
   { path: '/banana-game', component: BananaGame },
-
+  { path: '/qwen-rag', component: QwenRagIntro },
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 
