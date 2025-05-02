@@ -11,6 +11,7 @@ import RedisDemo from '../views/RedisDemo.vue'
 import ArxivSearch from '../views/ArxivSearch.vue'
 import BananaGame from '../views/BananaGame.vue'
 import QwenRagIntro from '../views/QwenRagIntro.vue'
+import TextSummarizer from '../views/TextSummarizer.vue'
 
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
   { path: '/arxiv-search', component: ArxivSearch },
   { path: '/banana-game', component: BananaGame },
   { path: '/qwen-rag', component: QwenRagIntro },
+  { path: '/text-summarizer', component: TextSummarizer},
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 

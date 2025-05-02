@@ -26,6 +26,8 @@ const links = [
   { name: 'Article Search', path: '/arxiv-search', available: true },
   { name: 'Apple', path: '/banana-game', available: true },
   { name: 'Qwen RAG', path: '/qwen-rag', available: true },
+  { name: 'Text Summarizer', path: '/text-summarizer', available: true },
+
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
 </script>
