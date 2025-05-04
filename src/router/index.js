@@ -12,6 +12,8 @@ import ArxivSearch from '../views/ArxivSearch.vue'
 import BananaGame from '../views/BananaGame.vue'
 import QwenRagIntro from '../views/QwenRagIntro.vue'
 import TextSummarizer from '../views/TextSummarizer.vue'
+import AutoCommit from '../views/AutoCommit.vue'
+
 
 
 const routes = [
@@ -27,6 +29,7 @@ const routes = [
   { path: '/banana-game', component: BananaGame },
   { path: '/qwen-rag', component: QwenRagIntro },
   { path: '/text-summarizer', component: TextSummarizer},
+  { path: '/auto-commit', component: AutoCommit},
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 
