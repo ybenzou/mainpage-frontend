@@ -13,6 +13,8 @@ import BananaGame from '../views/BananaGame.vue'
 import QwenRagIntro from '../views/QwenRagIntro.vue'
 import TextSummarizer from '../views/TextSummarizer.vue'
 import AutoCommit from '../views/AutoCommit.vue'
+import ThinkPartner from '../views/ThinkPartner.vue'
+import CodeRag from '../views/CodeRag.vue'
 
 
 
@@ -30,6 +32,8 @@ const routes = [
   { path: '/qwen-rag', component: QwenRagIntro },
   { path: '/text-summarizer', component: TextSummarizer},
   { path: '/auto-commit', component: AutoCommit},
+  { path: '/think-partner', component: ThinkPartner},
+  { path: '/code-rag', component: CodeRag},
   { path: '/privacy-rag', component: PrivacyRag },
 ]
 

@@ -28,6 +28,8 @@ const links = [
   { name: 'Qwen RAG', path: '/qwen-rag', available: true },
   { name: 'Git Assistant', path: '/auto-commit', available: true },
   { name: 'Text Summarizer', path: '/text-summarizer', available: true },
+  { name: 'Think Partner', path: '/think-partner', available: true },
+  { name: 'Code RAG', path: '/code-rag', available: true },
   { name: 'Tailwind Demo', path: '/tailwind-demo', available: false },
 ];
 </script>
